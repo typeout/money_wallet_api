@@ -13,11 +13,17 @@ router.get("/", (req, res) => {
 });
 
 router.post('/api/register', (req, res) => {
-  User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
-    if (err) {
-      res.sendStatus(500);
+  User.find({username: req.body.username}, (err, user) => {
+    if (user.length > 0) {
+      res.json({message: 'Username already exists!'});
     } else {
-      res.json({message: `User ${user.username} registered!`});
+      User.register(new User({username: req.body.username}), req.body.password, (err, user) => {
+        if (err) {
+          res.sendStatus(500);
+        } else {
+          res.json({message: `User ${user.username} registered!`});
+        }
+      });
     }
   });
 });
