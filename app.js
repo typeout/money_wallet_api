@@ -5,6 +5,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const app = express();
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Keys..
@@ -30,5 +31,7 @@ const indexRoutes = require('./routes/index');
 app.use(indexRoutes);
 const transactionRoutes = require('./routes/transaction');
 app.use(transactionRoutes);
+const userRoutes = require('./routes/user');
+app.use(userRoutes);
 
 app.listen(portURI, () => console.log(`Server started on port: ${portURI}`));
